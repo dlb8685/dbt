@@ -35,15 +35,16 @@ class TestBackupTableOption(DBTIntegrationTest):
             ddl_statement = ddl_file.readlines()
             self.assertEqual('backup no' not in ' '.join(ddl_statement).lower(), backup_is_expected)
         # Use information schema to confirm backup is set correctly on new table (0 if BACKUP NO is present)
-        check = "select distinct backup from stv_tbl_perm where name = '{}'".format(test_table_name)
-        info_schema_result = self.run_sql(check, fetch='all')
-        self.assertEqual(info_schema_result[0][0], int(backup_is_expected))
-        self.assertEqual(len(info_schema_result), 1)
+        if 'view' not in test_table_name:
+            check = "select distinct backup from stv_tbl_perm where name = '{}'".format(test_table_name)
+            info_schema_result = self.run_sql(check, fetch='all')
+            self.assertEqual(info_schema_result[0][0], int(backup_is_expected))
+            self.assertEqual(len(info_schema_result), 1)
 
     @use_profile('redshift')
     def test__redshift_backup_table_option(self):
         self.assertEqual(len(self.run_dbt(["seed"])), 1)
-        self.assertEqual(len(self.run_dbt()), 3)
+        self.assertEqual(len(self.run_dbt()), 4)
 
         # model_backup_undefined should not contain a BACKUP NO parameter in the table DDL
         self.check_backup_param_template('model_backup_undefined', True)
@@ -53,3 +54,6 @@ class TestBackupTableOption(DBTIntegrationTest):
 
         # model_backup_false should contain a BACKUP NO parameter in the table DDL
         self.check_backup_param_template('model_backup_false', False)
+
+        # Any view should not contain a BACKUP NO parameter, regardless of the specified config (create will fail)
+        self.check_backup_param_template('model_backup_true_view', True)
