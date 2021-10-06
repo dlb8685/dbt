@@ -15,7 +15,7 @@
 - Fix for EOL SQL comments prevent entire line execution ([#2731](https://github.com/fishtown-analytics/dbt/issues/2731), [#2974](https://github.com/fishtown-analytics/dbt/pull/2974))
 - Add optional `merge_update_columns` config to specify columns to update for `merge` statements in BigQuery and Snowflake ([#1862](https://github.com/fishtown-analytics/dbt/issues/1862), [#3100](https://github.com/fishtown-analytics/dbt/pull/3100))
 - Use query comment JSON as job labels for BigQuery adapter when `query-comment.job-label` is set to `true` ([#2483](https://github.com/fishtown-analytics/dbt/issues/2483)), ([#3145](https://github.com/fishtown-analytics/dbt/pull/3145))
-- Add optional Redshift parameter to create tables with BACKUP NO set, to exclude them from snapshots. ([#2367](https://github.com/fishtown-analytics/dbt/issues/2367))
+- Add optional Redshift parameter to create tables with BACKUP NO set, to exclude them from snapshots. ([#2367](https://github.com/fishtown-analytics/dbt/issues/2367), [#3221](https://github.com/dbt-labs/dbt/pull/3221))
 - Set application_name for Postgres connections ([#885](https://github.com/fishtown-analytics/dbt/issues/885), [#3182](https://github.com/fishtown-analytics/dbt/pull/3182))
 
 ### Under the hood
